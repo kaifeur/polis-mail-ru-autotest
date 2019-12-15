@@ -50,7 +50,9 @@ public class JoinNewActualGroupTest extends TestBase {
     @Override
     public void cleanUp() {
         super.cleanUp();
-        Selenide.open(MainPage.MAIN_PAGE_URL);
+        TestBot testBot = TestBot.bot2();
+        Selenide.open(BASE_URL);
+        new LoginPage().doLogin(testBot);
         MainPage mainPage = new MainPage();
         mainPage.clickGroupsOnLeftColumn();
         GroupsPage groupsPage = new GroupsPage();
@@ -67,5 +69,6 @@ public class JoinNewActualGroupTest extends TestBase {
             $(".ic_exit_arrow").parent().click();
             Selenide.back();
         }
+        Selenide.closeWindow();
     }
 }
