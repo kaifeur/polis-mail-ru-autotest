@@ -1,4 +1,3 @@
-import com.codeborne.selenide.Selenide;
 import core.LoginPage;
 import core.MainPage;
 import core.MusicSubPage;
@@ -15,12 +14,8 @@ public class PlayMusicTest extends TestBase {
     @Test
     public void playMusic() {
         TestBot testBot = TestBot.bot2();
-        Selenide.open(BASE_URL);
-        new LoginPage().doLogin(testBot);
-
-        MainPage mainPage = new MainPage();
-        mainPage.clickMusicOnToolbar();
-        MusicSubPage musicSubPage = new MusicSubPage();
+        MainPage mainPage = new LoginPage().doLogin(testBot);
+        MusicSubPage musicSubPage = mainPage.clickMusicOnToolbar();
         final List<MusicWrapper> musicWrappers = musicSubPage.getSongWrappers();
         final MusicWrapper musicWrapper = musicWrappers
                 .get(ThreadLocalRandom.current().nextInt(musicWrappers.size()));

@@ -1,9 +1,9 @@
 package core;
 
+import block.PostingFormBlock;
 import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
 import wrapper.FeedCardWrapper;
-import wrapper.PostingFormWrapper;
 
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
@@ -25,8 +25,8 @@ public class StatusesPage extends BasePage {
         return new FeedCardWrapper($$(feedCardSlr).shouldBe(CollectionCondition.sizeGreaterThan(0)).first());
     }
 
-    public PostingFormWrapper getPostingFormWrapper() {
-        return new PostingFormWrapper($(postingFormSlr).shouldBe(Condition.visible));
+    public PostingFormBlock getPostingFormBlock() {
+        return new PostingFormBlock($(postingFormSlr).shouldBe(Condition.visible));
     }
 
     @Override

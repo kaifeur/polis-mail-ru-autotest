@@ -1,22 +1,24 @@
-package wrapper;
+package block;
 
 import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import transformer.PhotoCardTransformer;
+import wrapper.PhotoCardWrapper;
 
 import java.util.List;
 
-public class PhotoGridWrapper {
+public class PhotoGridBlock {
     private final SelenideElement photoGridElm;
+    private String photoUcardImgSlr = ".ucard-b_img";
 
-    public PhotoGridWrapper(final SelenideElement photoGridElm) {
+    public PhotoGridBlock(final SelenideElement photoGridElm) {
         this.photoGridElm = photoGridElm;
     }
 
     public List<PhotoCardWrapper> getPhotosExcludeAvatar() {
         return PhotoCardTransformer.getInstance()
-                .transform(photoGridElm.$$(".ucard-b_img").exclude(
+                .transform(photoGridElm.$$(photoUcardImgSlr).exclude(
                         Condition.attribute("class", "ucard-b_img  __selected"))
                         .shouldHave(CollectionCondition.sizeGreaterThan(0)));
     }

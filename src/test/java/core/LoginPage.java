@@ -15,7 +15,7 @@ public class LoginPage extends BasePage {
         super();
     }
 
-    public void doLogin(TestBot testBot) {
+    public MainPage doLogin(TestBot testBot) {
         final SelenideElement loginInputElm = $(inputLoginSlr)
                 .shouldBe(Condition.visible).shouldBe(Condition.enabled);
         typeInInputField(loginInputElm, testBot.getLogin());
@@ -23,6 +23,7 @@ public class LoginPage extends BasePage {
                 .shouldBe(Condition.visible).shouldBe(Condition.enabled);
         typeInInputField(inputPasswordElm, testBot.getPassword());
         $(loginFormSlr).shouldBe(Condition.visible).submit();
+        return new MainPage();
     }
 
     private void typeInInputField(final SelenideElement inputFieldElement, final String value) {

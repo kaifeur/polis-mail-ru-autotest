@@ -17,13 +17,9 @@ public class JoinNewActualGroupTest extends TestBase {
     @Test
     public void joinNewActualGroup() {
         TestBot testBot = TestBot.bot2();
-        Selenide.open(BASE_URL);
-        new LoginPage().doLogin(testBot);
+        final MainPage mainPage = new LoginPage().doLogin(testBot);
 
-        final MainPage mainPage = new MainPage();
-        mainPage.clickGroupsOnLeftColumn();
-
-        final GroupsPage groupsPage = new GroupsPage();
+        final GroupsPage groupsPage = mainPage.clickGroupsOnLeftColumn();
         final List<GroupCardWrapper> actualGroupWrappers = groupsPage.getActualGroupWrappers();
         final GroupCardWrapper randomPopularGroup = actualGroupWrappers
                 .get(ThreadLocalRandom.current().nextInt(actualGroupWrappers.size()));
@@ -47,10 +43,8 @@ public class JoinNewActualGroupTest extends TestBase {
         super.cleanUp();
         TestBot testBot = TestBot.bot2();
         Selenide.open(BASE_URL);
-        new LoginPage().doLogin(testBot);
-        MainPage mainPage = new MainPage();
-        mainPage.clickGroupsOnLeftColumn();
-        GroupsPage groupsPage = new GroupsPage();
+        MainPage mainPage = new LoginPage().doLogin(testBot);
+        GroupsPage groupsPage = mainPage.clickGroupsOnLeftColumn();
         groupsPage.clickMyGroupsOnLeftColumn();
 
         final int groupCount = groupsPage.getUserGroupWrappers().size();

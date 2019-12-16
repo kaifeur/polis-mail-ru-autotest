@@ -5,9 +5,9 @@ import com.codeborne.selenide.SelenideElement;
 
 public class GroupCardWrapper {
     private final SelenideElement groupCardElm;
-    private String joinGroupButtonSlr = "form[action*=JoinGroupWidget] > button[data-l=\"t,join\"]";
-    private String groupLinkWithIdSlr = "a[hrefattrs*=\"groupId=\"]";
-    private String visitGroupSlr = "a[data-l=\"t,visit\"]";
+    private final String joinGroupButtonSlr = "form[action*=JoinGroupWidget] > button[data-l=\"t,join\"]";
+    private final String groupLinkWithIdSlr = "a[hrefattrs*=\"groupId=\"]";
+    private final String visitGroupSlr = "a[data-l=\"t,visit\"]";
 
     public GroupCardWrapper(final SelenideElement groupCardElm) {
         this.groupCardElm = groupCardElm;

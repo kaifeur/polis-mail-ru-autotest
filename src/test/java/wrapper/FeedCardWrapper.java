@@ -6,6 +6,7 @@ import com.codeborne.selenide.SelenideElement;
 public class FeedCardWrapper {
     private final SelenideElement feedCardElm;
     private final String textWrapSlr = ".textWrap";
+    private final String postMediaTextSlr = "a.media-text_a";
 
     public FeedCardWrapper(final SelenideElement feedCardElm) {
         this.feedCardElm = feedCardElm;
@@ -16,6 +17,6 @@ public class FeedCardWrapper {
     }
 
     public String getPostURL() {
-        return feedCardElm.$(".textWrap > a.media-text_a").getAttribute("href");
+        return feedCardElm.$(textWrapSlr).$(postMediaTextSlr).getAttribute("href");
     }
 }

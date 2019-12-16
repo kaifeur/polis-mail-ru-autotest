@@ -1,3 +1,4 @@
+import block.PostingFormBlock;
 import com.codeborne.selenide.Selenide;
 import core.DiscussionsPage;
 import core.LoginPage;
@@ -6,14 +7,13 @@ import core.PostOpenedSubPage;
 import core.StatusesPage;
 import core.TestBase;
 import model.TestBot;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Assert;
 import org.junit.Test;
 import wrapper.DiscussionWrapper;
 import wrapper.FeedCardWrapper;
-import wrapper.PostingFormWrapper;
 
 import java.util.List;
-import java.util.UUID;
 
 public class DiscussionsTest extends TestBase {
     private static final String COMMENT_TEXT = "Wow nice post";
@@ -21,15 +21,13 @@ public class DiscussionsTest extends TestBase {
     @Test
     public void createDiscussion() {
         TestBot testBot1 = TestBot.bot1();
-        Selenide.open(BASE_URL);
-        new LoginPage().doLogin(testBot1);
-        new MainPage().clickStatusesOnLeftColumn();
+        MainPage mainPage = new LoginPage().doLogin(testBot1);
+        StatusesPage statusesPage = mainPage.clickStatusesOnLeftColumn();
 
-        final StatusesPage statusesPage = new StatusesPage();
         statusesPage.clickOnCreatePost();
-        final PostingFormWrapper postingFormWrapper = statusesPage.getPostingFormWrapper();
-        final String feedPostText = UUID.randomUUID().toString();
-        postingFormWrapper.createFeedPost(feedPostText);
+        final PostingFormBlock postingFormBlock = statusesPage.getPostingFormBlock();
+        final String feedPostText = RandomStringUtils.randomAlphabetic(16);
+        postingFormBlock.createFeedPost(feedPostText);
 
         FeedCardWrapper feedCardWrapper = statusesPage.getFirstFeedCard();
         final String postURL = feedCardWrapper.getPostURL();
@@ -39,7 +37,6 @@ public class DiscussionsTest extends TestBase {
         TestBot testBot2 = TestBot.bot2();
         Selenide.open(BASE_URL);
         new LoginPage().doLogin(testBot2);
-        new MainPage();
         Selenide.open(postURL);
 
         PostOpenedSubPage postOpenedSubPage = new PostOpenedSubPage();
@@ -48,9 +45,8 @@ public class DiscussionsTest extends TestBase {
         Selenide.closeWindow();
 
         Selenide.open(BASE_URL);
-        new LoginPage().doLogin(testBot1);
-        new MainPage().openDiscussions();
-        DiscussionsPage discussionsPage = new DiscussionsPage();
+        mainPage = new LoginPage().doLogin(testBot1);
+        DiscussionsPage discussionsPage = mainPage.openDiscussions();
         discussionsPage.openMyDiscussions();
         final List<DiscussionWrapper> discussionWrappers = discussionsPage.getDiscussions();
         discussionWrappers.removeIf(d -> !d.getDiscussionDesc().equals(feedPostText));

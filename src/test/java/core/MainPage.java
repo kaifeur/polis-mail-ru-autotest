@@ -1,8 +1,8 @@
 package core;
 
+import block.AvatarBlock;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
-import wrapper.AvatarWrapper;
 
 import static com.codeborne.selenide.Selenide.$;
 
@@ -19,14 +19,16 @@ public class MainPage extends BasePage {
         super();
     }
 
-    public void clickStatusesOnLeftColumn() {
+    public StatusesPage clickStatusesOnLeftColumn() {
         $(userStatusesOnLeftColumnSlr).shouldBe(Condition.visible)
                 .shouldBe(Condition.enabled).click();
+        return new StatusesPage();
     }
 
-    public void clickGroupsOnLeftColumn() {
+    public GroupsPage clickGroupsOnLeftColumn() {
         $(groupsOnLeftColumnSlr).shouldBe(Condition.visible)
                 .shouldBe(Condition.enabled).click();
+        return new GroupsPage();
     }
 
     public void clickProfileOnLeftColumn() {
@@ -34,17 +36,19 @@ public class MainPage extends BasePage {
                 .shouldBe(Condition.enabled).click();
     }
 
-    public void clickMusicOnToolbar() {
+    public MusicSubPage clickMusicOnToolbar() {
         $(toolbarNavSlr).$(musicToolbarButtonSlr).shouldBe(Condition.visible).click();
+        return new MusicSubPage();
     }
 
-    public AvatarWrapper getAvatarWrapper() {
+    public AvatarBlock getAvatarWrapper() {
         final SelenideElement avatarElm = $(".entity-avatar").shouldBe(Condition.visible);
-        return new AvatarWrapper(avatarElm);
+        return new AvatarBlock(avatarElm);
     }
 
-    public void openDiscussions() {
+    public DiscussionsPage openDiscussions() {
         $(toolbarDiscussionsSlr).shouldBe(Condition.visible).click();
+        return new DiscussionsPage();
     }
 
     @Override

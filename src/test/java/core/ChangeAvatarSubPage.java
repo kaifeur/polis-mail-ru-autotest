@@ -1,14 +1,15 @@
 package core;
 
+import block.PhotoGridBlock;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
-import wrapper.PhotoGridWrapper;
 
 import static com.codeborne.selenide.Selenide.$;
 
 public class ChangeAvatarSubPage extends BasePage {
     private final String blockAvatarDialogSlr = "#hook_Block_AvatarDialogV2";
     private final String doCropButtonSlr = ".js-doCrop";
+    private String photoGrid = "#hook_Block_AvatarDialogV2Photos .photo-sc_grid";
 
     public ChangeAvatarSubPage() {
         super();
@@ -23,7 +24,7 @@ public class ChangeAvatarSubPage extends BasePage {
         $(doCropButtonSlr).shouldBe(Condition.visible).shouldBe(Condition.enabled).click();
     }
 
-    public PhotoGridWrapper getPhotoGridWrapper() {
-        return new PhotoGridWrapper($("#hook_Block_AvatarDialogV2Photos .photo-sc_grid").shouldBe(Condition.visible));
+    public PhotoGridBlock getPhotoGridBlock() {
+        return new PhotoGridBlock($(photoGrid).shouldBe(Condition.visible));
     }
 }

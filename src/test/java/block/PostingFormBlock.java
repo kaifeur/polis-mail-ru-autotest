@@ -1,17 +1,19 @@
-package wrapper;
+package block;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 
-public class PostingFormWrapper {
+public class PostingFormBlock {
     private final SelenideElement postingFormElm;
     private SelenideElement postingItx;
     private SelenideElement postingButton;
+    private String postingItxInputSlr = ".posting_itx";
+    private String postingSubmitSlr = ".posting_submit";
 
-    public PostingFormWrapper(final SelenideElement postingFormElm) {
+    public PostingFormBlock(final SelenideElement postingFormElm) {
         this.postingFormElm = postingFormElm;
-        postingItx = postingFormElm.$(".posting_itx");
-        postingButton = postingFormElm.$(".posting_submit");
+        postingItx = postingFormElm.$(postingItxInputSlr);
+        postingButton = postingFormElm.$(postingSubmitSlr);
     }
 
     public void createFeedPost(final String postText) {
