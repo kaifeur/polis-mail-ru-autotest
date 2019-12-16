@@ -12,6 +12,8 @@ public class MainPage extends BasePage {
     private final String userPageOnLeftColumnSlr = "a[data-l=\"t,userPage\"]";
     private final String toolbarDiscussionsSlr = "#hook_ToolbarIconDiscussions_ToolbarDiscussions";
     private final String blockNavigationSlr = "#hook_Block_Navigation";
+    private String toolbarNavSlr = "ul[class=toolbar_nav]";
+    private String musicToolbarButtonSlr = "li[data-l=\"t,music\"] #music_toolbar_button";
 
     public MainPage() {
         super();
@@ -30,6 +32,10 @@ public class MainPage extends BasePage {
     public void clickProfileOnLeftColumn() {
         $(userPageOnLeftColumnSlr).shouldBe(Condition.visible)
                 .shouldBe(Condition.enabled).click();
+    }
+
+    public void clickMusicOnToolbar() {
+        $(toolbarNavSlr).$(musicToolbarButtonSlr).shouldBe(Condition.visible).click();
     }
 
     public AvatarWrapper getAvatarWrapper() {

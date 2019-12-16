@@ -1,6 +1,6 @@
-import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.Selenide;
 import core.BasePage;
+import core.GroupPage;
 import core.GroupsPage;
 import core.LoginPage;
 import core.MainPage;
@@ -8,13 +8,10 @@ import core.TestBase;
 import model.TestBot;
 import org.junit.Assert;
 import org.junit.Test;
-import transformer.GroupCardTransformer;
 import wrapper.GroupCardWrapper;
 
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
-
-import static com.codeborne.selenide.Selenide.$;
 
 public class JoinNewActualGroupTest extends TestBase {
     @Test
@@ -27,24 +24,22 @@ public class JoinNewActualGroupTest extends TestBase {
         mainPage.clickGroupsOnLeftColumn();
 
         final GroupsPage groupsPage = new GroupsPage();
-        final ElementsCollection actualGroupElementCollection = groupsPage.getActualGroupElementCollection();
-        final GroupCardWrapper randomPopularGroup = GroupCardTransformer
-                .getInstance().transform(actualGroupElementCollection)
-                .get(ThreadLocalRandom.current().nextInt(actualGroupElementCollection.size()));
+        final List<GroupCardWrapper> actualGroupWrappers = groupsPage.getActualGroupWrappers();
+        final GroupCardWrapper randomPopularGroup = actualGroupWrappers
+                .get(ThreadLocalRandom.current().nextInt(actualGroupWrappers.size()));
 
         final String groupId = randomPopularGroup.getGroupId();
-        randomPopularGroup.getJoinGroupButton().click();
+        randomPopularGroup.joinToThisGroup();
 
         BasePage.openMainPage();
 
         mainPage.clickGroupsOnLeftColumn();
         groupsPage.clickMyGroupsOnLeftColumn();
 
-        final List<GroupCardWrapper> groupCardWrappers = GroupCardTransformer
-                .getInstance().transform(groupsPage.getUserGroupElementCollection());
+        final List<GroupCardWrapper> userGroupWrappers = groupsPage.getUserGroupWrappers();
 
-        groupCardWrappers.removeIf(g -> !groupId.equals(g.getGroupId()));
-        Assert.assertFalse("There must be the group than has been chosen", groupCardWrappers.isEmpty());
+        userGroupWrappers.removeIf(g -> !groupId.equals(g.getGroupId()));
+        Assert.assertFalse("There must be the group than has been chosen", userGroupWrappers.isEmpty());
     }
 
     @Override
@@ -58,15 +53,14 @@ public class JoinNewActualGroupTest extends TestBase {
         GroupsPage groupsPage = new GroupsPage();
         groupsPage.clickMyGroupsOnLeftColumn();
 
-        final int groupCount = groupsPage.getUserGroupElementCollection().size();
+        final int groupCount = groupsPage.getUserGroupWrappers().size();
         if (groupCount == 0) {
             return;
         }
 
         for (int i = 0; i < groupCount; i++) {
-            new GroupCardWrapper(groupsPage.getUserGroupElementCollection().first()).clickOnGroup();
-            $("#hook_Block_AltGroupMainMenu div[data-l=\"t,join\"] > .dropdown").click();
-            $(".ic_exit_arrow").parent().click();
+            groupsPage.getUserGroupWrappers().get(0).clickOnGroup();
+            new GroupPage().leaveThisGroup();
             Selenide.back();
         }
         Selenide.closeWindow();

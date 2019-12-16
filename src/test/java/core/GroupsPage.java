@@ -2,8 +2,11 @@ package core;
 
 import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
+import transformer.GroupCardTransformer;
+import wrapper.GroupCardWrapper;
+
+import java.util.List;
 
 import static com.codeborne.selenide.Selenide.$;
 
@@ -19,12 +22,16 @@ public class GroupsPage extends BasePage {
         super();
     }
 
-    public ElementsCollection getUserGroupElementCollection() {
-        return $(userGroupBlockSlr).$$(groupCardSlr);
+    public List<GroupCardWrapper> getUserGroupWrappers() {
+        return GroupCardTransformer.getInstance().transform(
+                $(userGroupBlockSlr).$$(groupCardSlr)
+                        .shouldHave(CollectionCondition.sizeGreaterThan(0)));
     }
 
-    public ElementsCollection getActualGroupElementCollection() {
-        return $(actualGroupBlockSlr).$$(groupCardSlr);
+    public List<GroupCardWrapper> getActualGroupWrappers() {
+        return GroupCardTransformer.getInstance().transform(
+                $(actualGroupBlockSlr).$$(groupCardSlr)
+                        .shouldHave(CollectionCondition.sizeGreaterThan(0)));
     }
 
     public void clickMyGroupsOnLeftColumn() {
