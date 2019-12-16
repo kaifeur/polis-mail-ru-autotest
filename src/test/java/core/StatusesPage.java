@@ -1,14 +1,14 @@
 package core;
 
+import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.ElementsCollection;
-import com.codeborne.selenide.SelenideElement;
+import wrapper.FeedCardWrapper;
+import wrapper.PostingFormWrapper;
 
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 
 public class StatusesPage extends BasePage {
-
     private final String postFeedHeadSlr = ".pf-head_itx";
     private final String feedCardSlr = ".feed";
     private final String postingFormSlr = ".posting";
@@ -18,15 +18,15 @@ public class StatusesPage extends BasePage {
     }
 
     public void clickOnCreatePost() {
-        $(postFeedHeadSlr).click();
+        $(postFeedHeadSlr).shouldBe(Condition.visible).click();
     }
 
-    public ElementsCollection getFeedCards() {
-        return $$(feedCardSlr);
+    public FeedCardWrapper getFirstFeedCard() {
+        return new FeedCardWrapper($$(feedCardSlr).shouldBe(CollectionCondition.sizeGreaterThan(0)).first());
     }
 
-    public SelenideElement getPostingFormElm() {
-        return $(postingFormSlr);
+    public PostingFormWrapper getPostingFormWrapper() {
+        return new PostingFormWrapper($(postingFormSlr).shouldBe(Condition.visible));
     }
 
     @Override

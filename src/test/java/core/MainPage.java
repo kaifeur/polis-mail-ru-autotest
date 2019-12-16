@@ -16,15 +16,18 @@ public class MainPage extends BasePage {
     }
 
     public void clickStatusesOnLeftColumn() {
-        $(userStatusesOnLeftColumnSlr).click();
+        $(userStatusesOnLeftColumnSlr).shouldBe(Condition.visible)
+                .shouldBe(Condition.enabled).click();
     }
 
     public void clickGroupsOnLeftColumn() {
-        $(groupsOnLeftColumnSlr).click();
+        $(groupsOnLeftColumnSlr).shouldBe(Condition.visible)
+                .shouldBe(Condition.enabled).click();
     }
 
     public void clickProfileOnLeftColumn() {
-        $(userPageOnLeftColumnSlr).click();
+        $(userPageOnLeftColumnSlr).shouldBe(Condition.visible)
+                .shouldBe(Condition.enabled).click();
     }
 
     public void openDiscussions() {

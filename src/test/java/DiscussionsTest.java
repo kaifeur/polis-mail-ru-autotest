@@ -14,6 +14,7 @@ import wrapper.FeedCardWrapper;
 import wrapper.PostingFormWrapper;
 
 import java.util.List;
+import java.util.UUID;
 
 import static com.codeborne.selenide.Selenide.$;
 
@@ -27,11 +28,11 @@ public class DiscussionsTest extends TestBase {
 
         final StatusesPage statusesPage = new StatusesPage();
         statusesPage.clickOnCreatePost();
-        PostingFormWrapper postingFormWrapper = new PostingFormWrapper(statusesPage.getPostingFormElm());
-        final String feedPostText = postingFormWrapper.createFeedPost();
-        statusesPage.getPostingFormElm().shouldNotBe(Condition.exist);
+        final PostingFormWrapper postingFormWrapper = statusesPage.getPostingFormWrapper();
+        final String feedPostText = UUID.randomUUID().toString();
+        postingFormWrapper.createFeedPost(feedPostText);
 
-        FeedCardWrapper feedCardWrapper = new FeedCardWrapper(statusesPage.getFeedCards().first());
+        FeedCardWrapper feedCardWrapper = statusesPage.getFirstFeedCard();
         final String postURL = feedCardWrapper.getPostURL();
 
         Selenide.closeWindow();
@@ -39,7 +40,7 @@ public class DiscussionsTest extends TestBase {
         TestBot testBot2 = TestBot.bot2();
         Selenide.open(BASE_URL);
         new LoginPage().doLogin(testBot2);
-        MainPage mainPage = new MainPage();
+        new MainPage();
         Selenide.open(postURL);
 
         $(".js-comments_add").shouldBe(Condition.enabled)
@@ -51,7 +52,7 @@ public class DiscussionsTest extends TestBase {
 
         Selenide.open(BASE_URL);
         new LoginPage().doLogin(testBot1);
-        mainPage.openDiscussions();
+        new MainPage().openDiscussions();
         DiscussionsPage discussionsPage = new DiscussionsPage();
         discussionsPage.openMyDiscussions();
         final List<DiscussionWrapper> discussionWrappers = DiscussionTransformer
@@ -63,16 +64,5 @@ public class DiscussionsTest extends TestBase {
     @Override
     public void cleanUp() {
         super.cleanUp();
-//        Selenide.closeWindow();
-//        TestBot testBot1 = TestBot.bot1();
-//        Selenide.open(BASE_URL);
-//        new LoginPage().doLogin(testBot1);
-//        new MainPage().openDiscussions();
-//        DiscussionsPage discussionsPage = new DiscussionsPage();
-//        discussionsPage.openMyDiscussions();
-//        discussionsPage.getDiscussions().forEach(d -> {
-//            d.click();
-//            d.$("div[uid=\"leaveDiscFromItem\"]").click();
-//        });
     }
 }

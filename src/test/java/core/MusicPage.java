@@ -8,7 +8,6 @@ import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 
 public class MusicPage extends BasePage {
-
     private final String trackSlr = "wm-track";
     private final String toolbarMusicLayerSlr = ".toolbar-music-layer .toolbar-layer";
 

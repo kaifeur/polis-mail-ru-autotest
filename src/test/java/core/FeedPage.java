@@ -5,7 +5,6 @@ import com.codeborne.selenide.Condition;
 import static com.codeborne.selenide.Selenide.$;
 
 public class FeedPage extends BasePage {
-
     private final String leftNavBarSlr = "div[data-l=\"t,navigation\"]";
     private final String userStatusesOnNavBarSlr = "a[data-l=\"t,userStatuses\"]";
 

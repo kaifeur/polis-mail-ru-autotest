@@ -1,5 +1,6 @@
 package wrapper;
 
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 
 public class DiscussionWrapper {
@@ -11,5 +12,9 @@ public class DiscussionWrapper {
 
     public String getDiscussionDesc() {
         return discussionElm.$(".disc-i_cnt_group_theme").text();
+    }
+
+    public void clickOnDiscussion() {
+        discussionElm.shouldBe(Condition.enabled).click();
     }
 }

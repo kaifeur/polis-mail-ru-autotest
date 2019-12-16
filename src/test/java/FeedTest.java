@@ -1,15 +1,15 @@
-import com.codeborne.selenide.CollectionCondition;
-import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.Selenide;
 import core.LoginPage;
 import core.MainPage;
 import core.StatusesPage;
 import core.TestBase;
 import model.TestBot;
+import org.junit.Assert;
 import org.junit.Test;
 import wrapper.FeedCardWrapper;
 import wrapper.PostingFormWrapper;
+
+import java.util.UUID;
 
 public class FeedTest extends TestBase {
     @Test
@@ -21,14 +21,12 @@ public class FeedTest extends TestBase {
 
         final StatusesPage statusesPage = new StatusesPage();
         statusesPage.clickOnCreatePost();
-        PostingFormWrapper postingFormWrapper = new PostingFormWrapper(statusesPage.getPostingFormElm());
-        final String feedPostText = postingFormWrapper.createFeedPost();
-        statusesPage.getPostingFormElm().shouldNotBe(Condition.exist);
+        final PostingFormWrapper postingFormWrapper = statusesPage.getPostingFormWrapper();
 
-        final ElementsCollection feedCards = statusesPage.getFeedCards();
-        feedCards
-                .shouldBe(CollectionCondition.sizeGreaterThan(0));
-        FeedCardWrapper feedCardWrapper = new FeedCardWrapper(feedCards.first());
-        feedCardWrapper.getFeedCardTextElement().should(Condition.exactTextCaseSensitive(feedPostText));
+        final String feedPostText = UUID.randomUUID().toString();
+        postingFormWrapper.createFeedPost(feedPostText);
+
+        FeedCardWrapper feedCardWrapper = statusesPage.getFirstFeedCard();
+        Assert.assertEquals(feedPostText, feedCardWrapper.getFeedCardText());
     }
 }

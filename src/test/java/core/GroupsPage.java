@@ -11,6 +11,9 @@ public class GroupsPage extends BasePage {
     private final String actualGroupBlockSlr = "div#hook_Block_PopularGroupsListBlock";
     private final String userGroupBlockSlr = "div#hook_Block_DetailedUserGroupsListBlock";
     private final String groupCardSlr = "div[data-l^=groupCard]";
+    private final String myGroupsNavBlockSlr = "#hook_Block_MyGroupsNavBlock";
+    private final String myGroupsNavHeaderSlr = "a[hrefattrs$=\"User_MyGroupsNav_Header\"]";
+    private final String groupsActiveFilterSlr = "a[href^=\"/dk?cmd=PopularGroupsListBlock\"][class=\"filter_i __active\"]";
 
     public GroupsPage() {
         super();
@@ -25,7 +28,7 @@ public class GroupsPage extends BasePage {
     }
 
     public void clickMyGroupsOnLeftColumn() {
-        $("#hook_Block_MyGroupsNavBlock").$("a[hrefattrs$=\"User_MyGroupsNav_Header\"]").click();
+        $(myGroupsNavBlockSlr).$(myGroupsNavHeaderSlr).click();
     }
 
     @Override
@@ -34,7 +37,7 @@ public class GroupsPage extends BasePage {
         actualGroupsListBlockElm.shouldBe(Condition.visible
                 .because("Groups list must be visible"));
 
-        actualGroupsListBlockElm.$("a[href^=\"/dk?cmd=PopularGroupsListBlock\"][class=\"filter_i __active\"]")
+        actualGroupsListBlockElm.$(groupsActiveFilterSlr)
                 .shouldHave(Condition.exactTextCaseSensitive("Актуально")
                         .because("The \"Actual\" section should be opened"));
 

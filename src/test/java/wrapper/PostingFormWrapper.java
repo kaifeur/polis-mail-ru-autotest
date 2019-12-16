@@ -1,8 +1,7 @@
 package wrapper;
 
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
-
-import java.util.UUID;
 
 public class PostingFormWrapper {
     private final SelenideElement postingFormElm;
@@ -15,10 +14,9 @@ public class PostingFormWrapper {
         postingButton = postingFormElm.$(".posting_submit");
     }
 
-    public String createFeedPost() {
-        final String postText = UUID.randomUUID().toString();
+    public void createFeedPost(final String postText) {
         postingItx.sendKeys(postText);
         postingButton.click();
-        return postText;
+        postingFormElm.shouldNotBe(Condition.exist);
     }
 }

@@ -16,9 +16,13 @@ public class LoginPage extends BasePage {
     }
 
     public void doLogin(TestBot testBot) {
-        typeInInputField($(inputLoginSlr), testBot.getLogin());
-        typeInInputField($(inputPasswordSlr), testBot.getPassword());
-        $(loginFormSlr).submit();
+        final SelenideElement loginInputElm = $(inputLoginSlr)
+                .shouldBe(Condition.visible).shouldBe(Condition.enabled);
+        typeInInputField(loginInputElm, testBot.getLogin());
+        final SelenideElement inputPasswordElm = $(inputPasswordSlr)
+                .shouldBe(Condition.visible).shouldBe(Condition.enabled);
+        typeInInputField(inputPasswordElm, testBot.getPassword());
+        $(loginFormSlr).shouldBe(Condition.visible).submit();
     }
 
     private void typeInInputField(final SelenideElement inputFieldElement, final String value) {
