@@ -60,7 +60,8 @@ public class JoinNewActualGroupTest extends TestBase {
 
         for (int i = 0; i < groupCount; i++) {
             groupsPage.getUserGroupWrappers().get(0).clickOnGroup();
-            new GroupPage().leaveThisGroup();
+            GroupPage groupPage = new GroupPage();
+            groupPage.leaveThisGroup();
             Selenide.back();
         }
         Selenide.closeWindow();
