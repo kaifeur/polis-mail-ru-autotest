@@ -8,20 +8,20 @@ import com.codeborne.selenide.SelenideElement;
 import static com.codeborne.selenide.Selenide.$;
 
 public class GroupsPage extends BasePage {
-    private static final String ACTUAL_GROUP_BLOCK_SELECTOR = "div#hook_Block_PopularGroupsListBlock";
-    private static final String USER_GROUP_BLOCK_SELECTOR = "div#hook_Block_DetailedUserGroupsListBlock";
-    private static final String GROUP_CARD_SELECTOR = "div[data-l^=groupCard]";
+    private final String actualGroupBlockSlr = "div#hook_Block_PopularGroupsListBlock";
+    private final String userGroupBlockSlr = "div#hook_Block_DetailedUserGroupsListBlock";
+    private final String groupCardSlr = "div[data-l^=groupCard]";
 
     public GroupsPage() {
         super();
     }
 
     public ElementsCollection getUserGroupElementCollection() {
-        return $(USER_GROUP_BLOCK_SELECTOR).$$(GROUP_CARD_SELECTOR);
+        return $(userGroupBlockSlr).$$(groupCardSlr);
     }
 
     public ElementsCollection getActualGroupElementCollection() {
-        return $(ACTUAL_GROUP_BLOCK_SELECTOR).$$(GROUP_CARD_SELECTOR);
+        return $(actualGroupBlockSlr).$$(groupCardSlr);
     }
 
     public void clickMyGroupsOnLeftColumn() {
@@ -30,7 +30,7 @@ public class GroupsPage extends BasePage {
 
     @Override
     protected void check() {
-        final SelenideElement actualGroupsListBlockElm = $(ACTUAL_GROUP_BLOCK_SELECTOR);
+        final SelenideElement actualGroupsListBlockElm = $(actualGroupBlockSlr);
         actualGroupsListBlockElm.shouldBe(Condition.visible
                 .because("Groups list must be visible"));
 
@@ -38,7 +38,7 @@ public class GroupsPage extends BasePage {
                 .shouldHave(Condition.exactTextCaseSensitive("Актуально")
                         .because("The \"Actual\" section should be opened"));
 
-        actualGroupsListBlockElm.$$(GROUP_CARD_SELECTOR)
+        actualGroupsListBlockElm.$$(groupCardSlr)
                 .shouldHave(CollectionCondition.sizeGreaterThan(0)
                         .because("There must be at least one group in the list"));
     }

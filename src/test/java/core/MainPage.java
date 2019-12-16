@@ -5,30 +5,34 @@ import com.codeborne.selenide.Condition;
 import static com.codeborne.selenide.Selenide.$;
 
 public class MainPage extends BasePage {
-    public static final String MAIN_PAGE_URL = "https://ok.ru/feed/";
+    private final String userStatusesOnLeftColumnSlr = "a[data-l=\"t,userStatuses\"]";
+    private final String groupsOnLeftColumnSlr = "a[data-l=\"t,userAltGroup\"]";
+    private final String userPageOnLeftColumnSlr = "a[data-l=\"t,userPage\"]";
+    private final String toolbarDiscussionsSlr = "#hook_ToolbarIconDiscussions_ToolbarDiscussions";
+    private final String blockNavigationSlr = "#hook_Block_Navigation";
 
     public MainPage() {
         super();
     }
 
     public void clickStatusesOnLeftColumn() {
-        $("a[data-l=\"t,userStatuses\"]").click();
+        $(userStatusesOnLeftColumnSlr).click();
     }
 
     public void clickGroupsOnLeftColumn() {
-        $("a[data-l=\"t,userAltGroup\"]").click();
+        $(groupsOnLeftColumnSlr).click();
     }
 
     public void clickProfileOnLeftColumn() {
-        $("a[data-l=\"t,userPage\"]").click();
+        $(userPageOnLeftColumnSlr).click();
     }
 
     public void openDiscussions() {
-        $("#hook_ToolbarIconDiscussions_ToolbarDiscussions").shouldBe(Condition.visible).click();
+        $(toolbarDiscussionsSlr).shouldBe(Condition.visible).click();
     }
 
     @Override
     protected void check() {
-        $("#hook_Block_Navigation").shouldBe(Condition.visible);
+        $(blockNavigationSlr).shouldBe(Condition.visible);
     }
 }

@@ -8,17 +8,21 @@ import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 
 public class MusicPage extends BasePage {
+
+    private final String trackSlr = "wm-track";
+    private final String toolbarMusicLayerSlr = ".toolbar-music-layer .toolbar-layer";
+
     public MusicPage() {
         super();
     }
 
     public ElementsCollection getSongElmCollection() {
-        $$("wm-track").shouldBe(CollectionCondition.sizeGreaterThan(0));
-        return $$("wm-track");
+        $$(trackSlr).shouldBe(CollectionCondition.sizeGreaterThan(0));
+        return $$(trackSlr);
     }
 
     @Override
     protected void check() {
-        $(".toolbar-music-layer .toolbar-layer").shouldBe(Condition.visible);
+        $(toolbarMusicLayerSlr).shouldBe(Condition.visible);
     }
 }

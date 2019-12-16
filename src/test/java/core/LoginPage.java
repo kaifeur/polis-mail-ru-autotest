@@ -7,17 +7,18 @@ import model.TestBot;
 import static com.codeborne.selenide.Selenide.$;
 
 public class LoginPage extends BasePage {
-    private static final String LOGIN_FORM_SELECTOR = "form[action='https://www.ok.ru/https']";
+    private final String loginFormSlr = "form[action='https://www.ok.ru/https']";
+    private final String inputLoginSlr = "input[data-l$=login]";
+    private final String inputPasswordSlr = "input[data-l$=password]";
 
     public LoginPage() {
         super();
     }
 
     public void doLogin(TestBot testBot) {
-        typeInInputField($("input[data-l$=login]"), testBot.getLogin());
-        typeInInputField($("input[data-l$=password]"), testBot.getPassword());
-        $(LOGIN_FORM_SELECTOR).submit();
-//        $("[data-l$=sign_in]").click();
+        typeInInputField($(inputLoginSlr), testBot.getLogin());
+        typeInInputField($(inputPasswordSlr), testBot.getPassword());
+        $(loginFormSlr).submit();
     }
 
     private void typeInInputField(final SelenideElement inputFieldElement, final String value) {
@@ -26,6 +27,6 @@ public class LoginPage extends BasePage {
 
     @Override
     protected void check() {
-        $(LOGIN_FORM_SELECTOR).shouldBe(Condition.visible.because("Login form should be visible to be able to log in"));
+        $(loginFormSlr).shouldBe(Condition.visible.because("Login form should be visible to be able to log in"));
     }
 }
