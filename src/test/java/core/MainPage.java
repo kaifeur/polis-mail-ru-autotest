@@ -1,6 +1,8 @@
 package core;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.SelenideElement;
+import wrapper.AvatarWrapper;
 
 import static com.codeborne.selenide.Selenide.$;
 
@@ -28,6 +30,11 @@ public class MainPage extends BasePage {
     public void clickProfileOnLeftColumn() {
         $(userPageOnLeftColumnSlr).shouldBe(Condition.visible)
                 .shouldBe(Condition.enabled).click();
+    }
+
+    public AvatarWrapper getAvatarWrapper() {
+        final SelenideElement avatarElm = $(".entity-avatar").shouldBe(Condition.visible);
+        return new AvatarWrapper(avatarElm);
     }
 
     public void openDiscussions() {

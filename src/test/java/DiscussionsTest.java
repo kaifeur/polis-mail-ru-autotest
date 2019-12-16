@@ -1,14 +1,13 @@
-import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 import core.DiscussionsPage;
 import core.LoginPage;
 import core.MainPage;
+import core.PostOpenedSubPage;
 import core.StatusesPage;
 import core.TestBase;
 import model.TestBot;
 import org.junit.Assert;
 import org.junit.Test;
-import transformer.DiscussionTransformer;
 import wrapper.DiscussionWrapper;
 import wrapper.FeedCardWrapper;
 import wrapper.PostingFormWrapper;
@@ -16,9 +15,9 @@ import wrapper.PostingFormWrapper;
 import java.util.List;
 import java.util.UUID;
 
-import static com.codeborne.selenide.Selenide.$;
-
 public class DiscussionsTest extends TestBase {
+    private static final String COMMENT_TEXT = "Wow nice post";
+
     @Test
     public void createDiscussion() {
         TestBot testBot1 = TestBot.bot1();
@@ -43,10 +42,8 @@ public class DiscussionsTest extends TestBase {
         new MainPage();
         Selenide.open(postURL);
 
-        $(".js-comments_add").shouldBe(Condition.enabled)
-                .sendKeys("Wow nice post");
-        $(".comments_add-controls > button[data-l=\"t,submit\"]")
-                .shouldBe(Condition.visible).click();
+        PostOpenedSubPage postOpenedSubPage = new PostOpenedSubPage();
+        postOpenedSubPage.writeNewCommentForPost(COMMENT_TEXT);
 
         Selenide.closeWindow();
 
@@ -55,8 +52,7 @@ public class DiscussionsTest extends TestBase {
         new MainPage().openDiscussions();
         DiscussionsPage discussionsPage = new DiscussionsPage();
         discussionsPage.openMyDiscussions();
-        final List<DiscussionWrapper> discussionWrappers = DiscussionTransformer
-                .getInstance().transform(discussionsPage.getDiscussions());
+        final List<DiscussionWrapper> discussionWrappers = discussionsPage.getDiscussions();
         discussionWrappers.removeIf(d -> !d.getDiscussionDesc().equals(feedPostText));
         Assert.assertFalse(discussionWrappers.isEmpty());
     }

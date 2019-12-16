@@ -1,17 +1,14 @@
-import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
-import com.codeborne.selenide.SelenideElement;
+import core.ChangeAvatarSubPage;
 import core.LoginPage;
 import core.MainPage;
 import core.TestBase;
 import model.TestBot;
+import org.junit.Assert;
 import org.junit.Test;
 import wrapper.AvatarWrapper;
 import wrapper.PhotoCardWrapper;
 import wrapper.PhotoGridWrapper;
-
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.$$;
 
 public class SwitchAvatarTest extends TestBase {
     @Test
@@ -20,30 +17,22 @@ public class SwitchAvatarTest extends TestBase {
         Selenide.open(BASE_URL);
         new LoginPage().doLogin(testBot);
 
-        final SelenideElement avatarElm = $(".entity-avatar");
-        final AvatarWrapper avatarWrapper = new AvatarWrapper(avatarElm);
-        final String oldHref = avatarWrapper.getAvatarAElm().getAttribute("href");
-        final String oldAvatarId = avatarWrapper.getAvatarId();
+        MainPage mainPage = new MainPage();
+        final AvatarWrapper avatarWrapper = mainPage.getAvatarWrapper();
+        final String oldHref = avatarWrapper.getAvatarHref();
 
-        avatarElm.hover();
-        $$(".tico").find(Condition.exactText("Сменить фото")).click();
+        avatarWrapper.clickOnChangeAvatar();
+        ChangeAvatarSubPage changeAvatarSubPage = new ChangeAvatarSubPage();
 
-        final PhotoGridWrapper photoGridWrapper = new PhotoGridWrapper($("#hook_Block_AvatarDialogV2Photos .photo-sc_grid"));
+        final PhotoGridWrapper photoGridWrapper = changeAvatarSubPage.getPhotoGridWrapper();
+        PhotoCardWrapper newAvatarPhotoWrapper = photoGridWrapper.getPhotosExcludeAvatar().get(0);
 
-        final SelenideElement notAvatarPhotoElm = photoGridWrapper.getPhotos().exclude(
-                Condition.attribute("class", "ucard-b_img  __selected"))
-                .first();
+        newAvatarPhotoWrapper.clickOnThisPhoto();
+        changeAvatarSubPage.acceptCropAvatar();
 
-        PhotoCardWrapper photoCardWrapper = new PhotoCardWrapper(notAvatarPhotoElm);
-        final String newAvatarId = photoCardWrapper.getId();
+        Selenide.sleep(5000);
+        Selenide.refresh();//because server need some time to really update avatar
 
-        notAvatarPhotoElm.$(".photo-crop_cnt").click();
-        $(".js-doCrop").click();
-
-        Selenide.sleep(5000); //because server need some time to really update avatar
-        new MainPage().clickProfileOnLeftColumn();
-
-        avatarWrapper.getAvatarAElm().should(Condition.not(
-                Condition.attribute("href", oldHref)));
+        Assert.assertNotEquals(oldHref, avatarWrapper.getAvatarHref());
     }
 }

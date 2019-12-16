@@ -19,4 +19,8 @@ public class PhotoCardWrapper {
         final String idWithEnd = href.substring(href.indexOf("photoId=") + 8);
         return idWithEnd.substring(0, idWithEnd.indexOf('&'));
     }
+
+    public void clickOnThisPhoto() {
+        photoCardElement.$(".photo-crop_cnt").shouldBe(Condition.visible).click();
+    }
 }

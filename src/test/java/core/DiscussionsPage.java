@@ -48,8 +48,9 @@ public class DiscussionsPage extends BasePage {
         lastDiscussion.clickOnDiscussion();
     }
 
-    public ElementsCollection getDiscussions() {
-        return $$(discussionItemSlr);
+    public List<DiscussionWrapper> getDiscussions() {
+        return DiscussionTransformer.getInstance().transform(
+                $$(discussionItemSlr).shouldBe(CollectionCondition.sizeGreaterThan(0)));
     }
 
     public String getOpenedDiscussionText() {
