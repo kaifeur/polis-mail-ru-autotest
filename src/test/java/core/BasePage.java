@@ -17,8 +17,9 @@ public abstract class BasePage {
         check();
     }
 
-    public static void openMainPage() {
+    public static MainPage openMainPage() {
         logo.shouldBe(Condition.visible).shouldBe(Condition.enabled).click();
+        return new MainPage();
     }
 
     protected abstract void check();

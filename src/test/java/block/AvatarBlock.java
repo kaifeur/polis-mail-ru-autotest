@@ -2,6 +2,7 @@ package block;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
+import condition.NotAttributeWithValueAndRefresh;
 import core.ChangeAvatarSubPage;
 
 import static com.codeborne.selenide.Selenide.$$;
@@ -15,15 +16,6 @@ public class AvatarBlock {
         this.avatarElement = avatarElement;
     }
 
-    public String getAvatarId() {
-        final String href = avatarElement.$(avatarCardWrpSlr).getAttribute("href");
-        return href.substring(href.lastIndexOf("/") + 1);
-    }
-
-    public SelenideElement getAvatarCardWrp() {
-        return avatarElement.$(avatarCardWrpSlr);
-    }
-
     public String getAvatarHref() {
         return avatarElement.$(avatarCardWrpSlr).getAttribute("href");
     }
@@ -32,5 +24,10 @@ public class AvatarBlock {
         avatarElement.shouldBe(Condition.visible).hover();
         $$(ticoSlr).find(Condition.exactText("Сменить фото")).click();
         return new ChangeAvatarSubPage();
+    }
+
+    public void checkNotEqualsAvatarHref(final String href) {
+        avatarElement.$(avatarCardWrpSlr).shouldHave(
+                new NotAttributeWithValueAndRefresh("href", href));
     }
 }

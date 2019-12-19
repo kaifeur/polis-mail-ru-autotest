@@ -1,6 +1,7 @@
 package core;
 
 import com.codeborne.selenide.Selenide;
+import org.apache.log4j.BasicConfigurator;
 import org.junit.After;
 import org.junit.Before;
 import org.slf4j.Logger;
@@ -12,6 +13,7 @@ public class TestBase {
 
     @Before
     public void setUp() {
+        BasicConfigurator.configure();
         Selenide.open(BASE_URL);
     }
 

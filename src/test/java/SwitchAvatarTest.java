@@ -1,55 +1,48 @@
 import block.AvatarBlock;
 import block.PhotoGridBlock;
-import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.Configuration;
-import com.codeborne.selenide.Driver;
-import com.codeborne.selenide.Selenide;
 import core.ChangeAvatarSubPage;
 import core.LoginPage;
 import core.MainPage;
 import core.TestBase;
 import model.TestBot;
+import org.junit.Assert;
 import org.junit.Test;
-import org.openqa.selenium.WebElement;
 import wrapper.PhotoCardWrapper;
 
 public class SwitchAvatarTest extends TestBase {
-    private static Condition attributeWithRefresh(final String propName, final String propValue) {
-        return new Condition("attribute") {
-            @Override
-            public boolean apply(Driver driver, WebElement element) {
-                if (propValue.equalsIgnoreCase(element.getAttribute(propName))) {
-                    return true;
-                } else {
-                    Selenide.refresh();
-                    return false;
-                }
-            }
-
-            @Override
-            public String actualValue(Driver driver, WebElement element) {
-                return element.getAttribute(propName);
-            }
-        };
-    }
-
     @Test
     public void switchAvatar() {
         TestBot testBot = TestBot.bot2();
+        logger.info("Trying to log in with credentials: {}", testBot);
         MainPage mainPage = new LoginPage().doLogin(testBot);
-        final AvatarBlock avatarBlock = mainPage.getAvatarWrapper();
+        logger.info("Logged in successfully");
 
-        ChangeAvatarSubPage changeAvatarSubPage = avatarBlock.clickOnChangeAvatar();
+        AvatarBlock avatarBlock = mainPage.getAvatarWrapper();
+        final String oldHref = avatarBlock.getAvatarHref();
+        logger.info("Old avatar href: {}", oldHref);
+
+        final ChangeAvatarSubPage changeAvatarSubPage = avatarBlock.clickOnChangeAvatar();
 
         final PhotoGridBlock photoGridBlock = changeAvatarSubPage.getPhotoGridBlock();
-        PhotoCardWrapper newAvatarPhotoWrapper = photoGridBlock.getPhotosExcludeAvatar().get(0);
+        logger.info("Photo grid size: {}", photoGridBlock.getPhotosExcludeAvatar().size());
+
+        final PhotoCardWrapper newAvatarPhotoWrapper = photoGridBlock.getPhotosExcludeAvatar().get(0);
+        logger.info("Chosen avatar id: {}", newAvatarPhotoWrapper.getId());
 
         newAvatarPhotoWrapper.clickOnThisPhoto();
         changeAvatarSubPage.acceptCropAvatar();
 
-        avatarBlock.getAvatarCardWrp().waitUntil(
-                attributeWithRefresh("href", avatarBlock.getAvatarHref()), Configuration.timeout); //move to avatar block
+        logger.info("Avatar was changed, going to profile page");
+        mainPage.clickProfileOnLeftColumn();
 
-//        Assert.assertNotEquals(oldHref, avatarWrapper.getAvatarHref());
+        logger.info("New avatar href before refresh: {}", avatarBlock.getAvatarHref());
+
+        avatarBlock.checkNotEqualsAvatarHref(oldHref);
+        logger.info("New avatar href after a potential refresh: {}", avatarBlock.getAvatarHref());
+
+        mainPage = new MainPage();
+        avatarBlock = mainPage.getAvatarWrapper();
+        logger.info("Avatar href before assert: {}", avatarBlock.getAvatarHref());
+        Assert.assertNotEquals(oldHref, avatarBlock.getAvatarHref());
     }
 }

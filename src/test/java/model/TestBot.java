@@ -29,4 +29,9 @@ public class TestBot {
     public String getPassword() {
         return password;
     }
+
+    @Override
+    public String toString() {
+        return "login: " + login + ", password: " + password;
+    }
 }
