@@ -23,9 +23,11 @@ public class GroupsPage extends BasePage {
     }
 
     public List<GroupCardWrapper> getUserGroupWrappers() {
+        $(userGroupBlockSlr).shouldBe(Condition.visible.because("You must open \"my groups\" before getting user groups"));
         return GroupCardTransformer.getInstance().transform(
                 $(userGroupBlockSlr).$$(groupCardSlr)
-                        .shouldHave(CollectionCondition.sizeGreaterThan(0)));
+                        .shouldHave(CollectionCondition.sizeGreaterThan(0)
+                                .because("There must be at least one user group")));
     }
 
     public List<GroupCardWrapper> getActualGroupWrappers() {
@@ -34,8 +36,9 @@ public class GroupsPage extends BasePage {
                         .shouldHave(CollectionCondition.sizeGreaterThan(0)));
     }
 
-    public void clickMyGroupsOnLeftColumn() {
+    public GroupsPage clickMyGroupsOnLeftColumn() {
         $(myGroupsNavBlockSlr).$(myGroupsNavHeaderSlr).click();
+        return this;
     }
 
     @Override

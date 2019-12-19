@@ -17,7 +17,7 @@ public class FeedTest extends TestBase {
         MainPage mainPage = new LoginPage().doLogin(testBot);
         logger.info("Logged in successfully");
 
-        final StatusesPage statusesPage = mainPage.clickStatusesOnLeftColumn();
+        StatusesPage statusesPage = mainPage.clickStatusesOnLeftColumn();
         logger.info("Statuses page was opened");
 
         statusesPage.clickOnCreatePost();
@@ -25,7 +25,7 @@ public class FeedTest extends TestBase {
         final String feedPostText = RandomStringUtils.randomAlphabetic(16);
         logger.info("Post text: {}", feedPostText);
 
-        postingFormBlock.createFeedPost(feedPostText);
+        statusesPage = postingFormBlock.createFeedPost(feedPostText);
         logger.info("Post was created successfully");
 
         FeedCardWrapper feedCardWrapper = statusesPage.getFirstFeedCard();

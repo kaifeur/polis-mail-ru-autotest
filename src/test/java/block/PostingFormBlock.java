@@ -2,6 +2,7 @@ package block;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
+import core.StatusesPage;
 
 public class PostingFormBlock {
     private final SelenideElement postingFormElm;
@@ -16,9 +17,10 @@ public class PostingFormBlock {
         postingButton = postingFormElm.$(postingSubmitSlr);
     }
 
-    public void createFeedPost(final String postText) {
+    public StatusesPage createFeedPost(final String postText) {
         postingItx.sendKeys(postText);
         postingButton.click();
         postingFormElm.shouldNotBe(Condition.exist);
+        return new StatusesPage();
     }
 }

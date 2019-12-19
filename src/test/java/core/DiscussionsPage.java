@@ -2,7 +2,6 @@ package core;
 
 import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import transformer.DiscussionTransformer;
 import wrapper.DiscussionWrapper;
@@ -39,23 +38,8 @@ public class DiscussionsPage extends BasePage {
                 .shouldBe(Condition.enabled).click();
     }
 
-    @Deprecated
-    public void openNewestDiscussion() {
-        final ElementsCollection discs = $$(discussionItemSlr);
-        discs.shouldBe(CollectionCondition.sizeGreaterThan(0));
-        final List<DiscussionWrapper> discussionWrappers = DiscussionTransformer.getInstance().transform(discs);
-        final DiscussionWrapper lastDiscussion = discussionWrappers.get(0);
-        lastDiscussion.clickOnDiscussion();
-    }
-
     public List<DiscussionWrapper> getDiscussions() {
         return DiscussionTransformer.getInstance().transform(
                 $$(discussionItemSlr).shouldBe(CollectionCondition.sizeGreaterThan(0)));
-    }
-
-    public String getOpenedDiscussionText() {
-        final SelenideElement mDialogChatElm = $(mDialogChatSlr).shouldBe(Condition.visible);
-        final SelenideElement discWindow = mDialogChatElm.$(mDialogChatWindowCntSlr).shouldBe(Condition.visible);
-        return discWindow.$(discussionItemTextSlr).shouldBe(Condition.not(Condition.empty)).text();
     }
 }

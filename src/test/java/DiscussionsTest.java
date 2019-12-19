@@ -31,7 +31,7 @@ public class DiscussionsTest extends TestBase {
         final PostingFormBlock postingFormBlock = statusesPage.getPostingFormBlock();
         final String feedPostText = RandomStringUtils.randomAlphabetic(16);
         logger.info("Post text: {}", feedPostText);
-        postingFormBlock.createFeedPost(feedPostText);
+        statusesPage = postingFormBlock.createFeedPost(feedPostText);
         logger.info("New post created successfully");
 
         FeedCardWrapper feedCardWrapper = statusesPage.getFirstFeedCard();
