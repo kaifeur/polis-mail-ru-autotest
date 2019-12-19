@@ -18,7 +18,9 @@ public class PhotoCardWrapper {
     }
 
     public String getId() {
-        final String href = photoCardElement.$(avatarListBlockWithLinkSlr).getAttribute("href");
+        final String href = photoCardElement.$(avatarListBlockWithLinkSlr)
+                .shouldHave(Condition.attribute("href").because("We must know ID of this photo"))
+                .getAttribute("href");
         final String idWithEnd = href.substring(href.indexOf("photoId=") + 8);
         return idWithEnd.substring(0, idWithEnd.indexOf('&'));
     }

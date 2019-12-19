@@ -33,7 +33,8 @@ public class GroupsPage extends BasePage {
     public List<GroupCardWrapper> getActualGroupWrappers() {
         return GroupCardTransformer.getInstance().transform(
                 $(actualGroupBlockSlr).$$(groupCardSlr)
-                        .shouldHave(CollectionCondition.sizeGreaterThan(0)));
+                        .shouldHave(CollectionCondition.sizeGreaterThan(0)
+                                .because("There must be at least one actual group")));
     }
 
     public GroupsPage clickMyGroupsOnLeftColumn() {

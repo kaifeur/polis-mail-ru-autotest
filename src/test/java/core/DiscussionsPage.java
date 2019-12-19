@@ -31,7 +31,8 @@ public class DiscussionsPage extends BasePage {
     }
 
     public void openMyDiscussions() {
-        final SelenideElement mDialogList = $(mDialogListSlr).shouldBe(Condition.visible);
+        final SelenideElement mDialogList = $(mDialogListSlr).shouldBe(Condition.visible
+                .because("Discussions list must be visible"));
         final SelenideElement discussionTabs = mDialogList.$(mDialogListTabsSlr)
                 .shouldBe(Condition.visible);
         discussionTabs.$(discussionFilterMySlr).shouldBe(Condition.visible)
@@ -40,6 +41,7 @@ public class DiscussionsPage extends BasePage {
 
     public List<DiscussionWrapper> getDiscussions() {
         return DiscussionTransformer.getInstance().transform(
-                $$(discussionItemSlr).shouldBe(CollectionCondition.sizeGreaterThan(0)));
+                $$(discussionItemSlr).shouldBe(CollectionCondition.sizeGreaterThan(0)
+                        .because("There must be at least one discussion")));
     }
 }

@@ -20,7 +20,8 @@ public class PostingFormBlock {
     public StatusesPage createFeedPost(final String postText) {
         postingItx.sendKeys(postText);
         postingButton.click();
-        postingFormElm.shouldNotBe(Condition.exist);
+        postingFormElm.shouldNotBe(Condition.exist
+                .because("Posting form must be closed after creating post"));
         return new StatusesPage();
     }
 }

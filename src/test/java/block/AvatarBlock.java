@@ -21,13 +21,14 @@ public class AvatarBlock {
     }
 
     public ChangeAvatarSubPage clickOnChangeAvatar() {
-        avatarElement.shouldBe(Condition.visible).hover();
+        avatarElement.shouldBe(Condition.visible.because("Avatar block needed")).hover();
         $$(ticoSlr).find(Condition.exactText("Сменить фото")).click();
         return new ChangeAvatarSubPage();
     }
 
     public void checkNotEqualsAvatarHref(final String href) {
         avatarElement.$(avatarCardWrpSlr).shouldHave(
-                new NotAttributeWithValueAndRefresh("href", href));
+                new NotAttributeWithValueAndRefresh("href", href)
+                        .because("Avatar href must be changed"));
     }
 }

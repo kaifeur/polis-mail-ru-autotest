@@ -20,6 +20,7 @@ public class PhotoGridBlock {
         return PhotoCardTransformer.getInstance()
                 .transform(photoGridElm.$$(photoUcardImgSlr).exclude(
                         Condition.attribute("class", "ucard-b_img  __selected"))
-                        .shouldHave(CollectionCondition.sizeGreaterThan(0)));
+                        .shouldHave(CollectionCondition.sizeGreaterThan(0)
+                                .because("There must be at least one not avatar photo")));
     }
 }

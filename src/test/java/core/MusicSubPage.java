@@ -20,11 +20,13 @@ public class MusicSubPage extends BasePage {
     }
 
     public List<MusicWrapper> getSongWrappers() {
-        return MusicTransformer.getInstance().transform($$(trackSlr).shouldBe(CollectionCondition.sizeGreaterThan(0)));
+        return MusicTransformer.getInstance().transform($$(trackSlr)
+                .shouldBe(CollectionCondition.sizeGreaterThan(0)
+                        .because("There must be at least one song")));
     }
 
     public void checkMusicPlayingState() {
-        $(playerControlsPauseIconSlr).should(Condition.exist);
+        $(playerControlsPauseIconSlr).should(Condition.exist.because("Music must be playing at this moment"));
     }
 
     public String getPlayerDragValueAttribute() {

@@ -9,6 +9,7 @@ public class PostOpenedSubPage extends BasePage {
 
     private final String newCommentInputSlr = ".js-comments_add";
     private final String addCommentButtonSlr = ".comments_add-controls > button[data-l=\"t,submit\"]";
+    private String mediaStatusLayerSlr = "#hook_Block_MediaStatusLayerBody";
 
     public PostOpenedSubPage() {
         super();
@@ -16,13 +17,15 @@ public class PostOpenedSubPage extends BasePage {
 
     @Override
     protected void check() {
-        Selenide.$("#hook_Block_MediaStatusLayerBody").shouldBe(Condition.visible);
+        Selenide.$(mediaStatusLayerSlr).shouldBe(Condition.visible);
     }
 
     public void writeNewCommentForPost(final String commentText) {
-        $(newCommentInputSlr).shouldBe(Condition.visible).shouldBe(Condition.enabled)
+        $(newCommentInputSlr).shouldBe(Condition.visible)
+                .shouldBe(Condition.enabled.because("We must be able to write a comment"))
                 .sendKeys(commentText);
         $(addCommentButtonSlr)
-                .shouldBe(Condition.visible).shouldBe(Condition.enabled).click();
+                .shouldBe(Condition.visible).shouldBe(Condition.enabled
+                .because("We must be able to add written comment")).click();
     }
 }

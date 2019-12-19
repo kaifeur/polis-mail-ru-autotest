@@ -17,7 +17,8 @@ public class ChangeAvatarSubPage extends BasePage {
 
     @Override
     protected void check() {
-        Selenide.$(blockAvatarDialogSlr).shouldBe(Condition.visible);
+        Selenide.$(blockAvatarDialogSlr).shouldBe(Condition.visible
+                .because("There must be avatar changing dialog"));
     }
 
     public void acceptCropAvatar() {

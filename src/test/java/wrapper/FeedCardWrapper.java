@@ -17,6 +17,7 @@ public class FeedCardWrapper {
     }
 
     public String getPostURL() {
-        return feedCardElm.$(textWrapSlr).$(postMediaTextSlr).getAttribute("href");
+        return feedCardElm.$(textWrapSlr).$(postMediaTextSlr).shouldHave(Condition.attribute("href")
+                .because("We must know URL of this post")).getAttribute("href");
     }
 }

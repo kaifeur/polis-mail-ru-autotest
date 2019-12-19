@@ -22,7 +22,9 @@ public class StatusesPage extends BasePage {
     }
 
     public FeedCardWrapper getFirstFeedCard() {
-        return new FeedCardWrapper($$(feedCardSlr).shouldBe(CollectionCondition.sizeGreaterThan(0)).first());
+        return new FeedCardWrapper($$(feedCardSlr).shouldBe(CollectionCondition.sizeGreaterThan(0)
+                .because("There must be at least one post in the feed"))
+                .first());
     }
 
     public PostingFormBlock getPostingFormBlock() {

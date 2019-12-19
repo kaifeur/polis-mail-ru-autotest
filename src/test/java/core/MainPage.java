@@ -14,6 +14,7 @@ public class MainPage extends BasePage {
     private final String blockNavigationSlr = "#hook_Block_Navigation";
     private String toolbarNavSlr = "ul[class=toolbar_nav]";
     private String musicToolbarButtonSlr = "li[data-l=\"t,music\"] #music_toolbar_button";
+    private String entityAvatarSlr = ".entity-avatar";
 
     public MainPage() {
         super();
@@ -42,7 +43,8 @@ public class MainPage extends BasePage {
     }
 
     public AvatarBlock getAvatarWrapper() {
-        final SelenideElement avatarElm = $(".entity-avatar").shouldBe(Condition.visible);
+        final SelenideElement avatarElm = $(entityAvatarSlr).shouldBe(Condition.visible
+                .because("Avatar block must be visible"));
         return new AvatarBlock(avatarElm);
     }
 

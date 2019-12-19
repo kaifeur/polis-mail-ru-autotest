@@ -25,6 +25,7 @@ public class GroupCardWrapper {
     }
 
     public void clickOnGroup() {
-        groupCardElm.$(visitGroupSlr).click();
+        groupCardElm.$(visitGroupSlr).shouldBe(Condition.visible)
+                .shouldBe(Condition.enabled).click();
     }
 }
