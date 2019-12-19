@@ -9,7 +9,7 @@ public class PostOpenedSubPage extends BasePage {
 
     private final String newCommentInputSlr = ".js-comments_add";
     private final String addCommentButtonSlr = ".comments_add-controls > button[data-l=\"t,submit\"]";
-    private String mediaStatusLayerSlr = "#hook_Block_MediaStatusLayerBody";
+    private final String mediaStatusLayerSlr = "#hook_Block_MediaStatusLayerBody";
 
     public PostOpenedSubPage() {
         super();

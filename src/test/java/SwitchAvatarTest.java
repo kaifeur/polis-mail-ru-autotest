@@ -1,5 +1,6 @@
 import block.AvatarBlock;
 import block.PhotoGridBlock;
+import com.codeborne.selenide.Selenide;
 import core.ChangeAvatarSubPage;
 import core.LoginPage;
 import core.MainPage;
@@ -42,6 +43,7 @@ public class SwitchAvatarTest extends TestBase {
 
         mainPage = new MainPage();
         avatarBlock = mainPage.getAvatarWrapper();
+        Selenide.refresh();
         logger.info("Avatar href before assert: {}", avatarBlock.getAvatarHref());
         Assert.assertNotEquals(oldHref, avatarBlock.getAvatarHref());
     }
